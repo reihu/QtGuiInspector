@@ -8,12 +8,14 @@ QtGuiInspector::QtGuiInspector(QWidget *widget) {
 	m_properties = new PropertyEditor();
 	m_style = new QPlainTextEdit();
 	m_tree = new ObjectTree(widget);
+	m_sigSlotViewer = new SignalSlotViewer();
 	m_selectedWidget = 0;
 
 	setWindowTitle(tr("WidgetInspector"));
 
 	vbox->addWidget(m_properties);
 	vbox->addWidget(m_style);
+	vbox->addWidget(m_sigSlotViewer);
 
 	layout->addWidget(m_tree);
 	layout->addItem(vbox);
@@ -34,6 +36,7 @@ void QtGuiInspector::_objectSelected(QObject *object) {
 	m_properties->setObject(object);
 	m_style->setEnabled(false);
 	m_style->clear();
+	m_sigSlotViewer->setObject(object);
 }
 
 void QtGuiInspector::_updateStyle() {

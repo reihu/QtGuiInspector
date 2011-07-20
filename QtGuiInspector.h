@@ -6,6 +6,7 @@
 #include <QPlainTextEdit>
 #include "ObjectTree.h"
 #include "PropertyEditor.h"
+#include "SignalSlotViewer.h"
 
 class QTGUIINSPECTORSHARED_EXPORT QtGuiInspector: public QDialog {
 	Q_OBJECT
@@ -15,6 +16,7 @@ private:
 	QWidget *m_selectedWidget;
 	ObjectTree *m_tree;
 	PropertyEditor *m_properties;
+	SignalSlotViewer *m_sigSlotViewer;
 	QPlainTextEdit *m_style;
 public:
 	/**
