@@ -48,18 +48,7 @@
    <widget class="QWidget" name="dockWidgetContents_2">
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <widget class="PropertyEditor" name="propertyList">
-       <column>
-        <property name="text">
-         <string notr="true">Name</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Value</string>
-        </property>
-       </column>
-      </widget>
+      <widget class="PropertyEditor" name="propertyList"/>
      </item>
     </layout>
    </widget>
@@ -113,14 +102,14 @@
    <header>../src/ObjectTree.h</header>
   </customwidget>
   <customwidget>
-   <class>PropertyEditor</class>
-   <extends>QTreeWidget</extends>
-   <header>../src/PropertyEditor.h</header>
-  </customwidget>
-  <customwidget>
    <class>MethodViewer</class>
    <extends>QTreeWidget</extends>
    <header>../src/MethodViewer.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PropertyEditor</class>
+   <extends>QTreeView</extends>
+   <header>../src/PropertyEditor.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
