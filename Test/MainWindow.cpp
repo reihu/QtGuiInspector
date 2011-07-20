@@ -1,6 +1,6 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
-#include "../QtGuiInspector.h"
+#include "../src/QtGuiInspector.h"
 
 MainWindow::MainWindow(QWidget *parent):
 		QMainWindow(parent),

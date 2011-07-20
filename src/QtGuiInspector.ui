@@ -110,17 +110,17 @@
   <customwidget>
    <class>ObjectTree</class>
    <extends>QTreeWidget</extends>
-   <header>../ObjectTree.h</header>
+   <header>../src/ObjectTree.h</header>
   </customwidget>
   <customwidget>
    <class>PropertyEditor</class>
    <extends>QTreeWidget</extends>
-   <header>../PropertyEditor.h</header>
+   <header>../src/PropertyEditor.h</header>
   </customwidget>
   <customwidget>
    <class>MethodViewer</class>
    <extends>QTreeWidget</extends>
-   <header>../MethodViewer.h</header>
+   <header>../src/MethodViewer.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

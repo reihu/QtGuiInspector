@@ -1,19 +1,19 @@
 DEPENDPATH += $$PWD
-SOURCES += QtGuiInspector.cpp \
-    InspectorItem.cpp \
-    MethodViewer.cpp \
-    ObjectTree.cpp \
-    PropertyEditor.cpp \
+SOURCES += src/QtGuiInspector.cpp \
+    src/InspectorItem.cpp \
+    src/MethodViewer.cpp \
+    src/ObjectTree.cpp \
+    src/PropertyEditor.cpp \
 
-HEADERS += QtGuiInspector.h \
-    QtGuiInspector_global.h \
-    InspectorItem.h \
-    MethodViewer.h \
-    ObjectTree.h \
-    PropertyEditor.h
+HEADERS += src/QtGuiInspector.h \
+    src/QtGuiInspector_global.h \
+    src/InspectorItem.h \
+    src/MethodViewer.h \
+    src/ObjectTree.h \
+    src/PropertyEditor.h
 
 OTHER_FILES += ../eartunes/etplayer/src/test.qml
 DEFINES += USE_QTGUIINSPECTOR
 
 FORMS += \
-    ../QtGuiInspector.ui
+    src/QtGuiInspector.ui
