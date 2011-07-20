@@ -24,6 +24,7 @@ public:
 		QMetaMethod getMethod() const {return m_method;}
 		QObject* getObject() const {return m_object;}
 
+		bool isSignal() {return m_method.methodType() == QMetaMethod::Signal;}
 		bool isSlot() {return m_method.methodType() == QMetaMethod::Slot;}
 	};
 

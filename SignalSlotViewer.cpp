@@ -54,7 +54,7 @@ void SignalSlotViewer::contextMenuEvent(QContextMenuEvent *event) {
 	SSVItem *item = static_cast<SSVItem*>(itemAt(event->pos()));
 	QMenu menu(this);
 
-	if (item->isSlot() && item->getMethod().parameterNames().count() == 0) {
+	if ((item->isSignal() || item->isSlot()) && item->getMethod().parameterNames().count() == 0) {
 		QAction *action = menu.addAction("invoke", this, SLOT(_invokeMethod()));
 		action->setProperty("treeItem", QVariant::fromValue<SignalSlotViewer::SSVItem*>(item));
 		action = menu.addAction(tr("Invoke every n seconds..."), this, SLOT(_invokeMethodEvery()));
