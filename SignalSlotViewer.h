@@ -2,15 +2,22 @@
 #define SIGNALSLOTVIEWER_H
 
 #include <QMetaMethod>
+#include <QTimer>
 #include <QTreeWidget>
 
 class SignalSlotViewer: public QTreeWidget {
     Q_OBJECT
+private:
+	QTimer m_invokeTimer;
+	QMetaMethod m_invokedMethod;
+	QObject *m_invokedObject;
+
 public:
 	class SSVItem: public QTreeWidgetItem {
 	private:
 		QMetaMethod m_method;
 		QObject *m_object;
+
 	public:
 		SSVItem(QObject *object, const QMetaMethod &method);
 
@@ -31,6 +38,8 @@ protected:
 
 private slots:
 	void _invokeMethod();
+	void _invokeMethodEvery();
+	void _invokeTimerTick();
 };
 
 #endif // SIGNALSLOTVIEWER_H
