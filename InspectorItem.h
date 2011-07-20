@@ -4,7 +4,8 @@
 #include <QTreeWidgetItem>
 #include <QWidget>
 
-class InspectorItem : public QTreeWidgetItem {
+class InspectorItem : public QObject, public QTreeWidgetItem {
+	Q_OBJECT
 private:
 	QObject *m_object;
 
@@ -15,8 +16,8 @@ public:
 	QWidget *getWidget();
 signals:
 
-public slots:
-
+private slots:
+	void _objectDestroyed();
 };
 
 #endif // INSPECTORITEM_H

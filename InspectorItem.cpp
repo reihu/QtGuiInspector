@@ -6,6 +6,12 @@ InspectorItem::InspectorItem(QObject *object) : QTreeWidgetItem() {
 	setText(0, object->metaObject()->className());
 	setText(1, object->objectName());
 
+	connect(object, SIGNAL(destroyed()), this, SLOT(_objectDestroyed()));
+}
+
+void InspectorItem::_objectDestroyed() {
+	// delete this InspectorItem
+	delete this;
 }
 
 QObject* InspectorItem::getObject() {
