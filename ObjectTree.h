@@ -12,6 +12,11 @@ public:
     explicit ObjectTree(QWidget *parent = 0);
 
 	void displayTree(QObject *object);
+
+	QTreeWidgetItem* findObject(QObject *object);
+	QTreeWidgetItem* findObject(QTreeWidgetItem *parent, QObject *object);
+
+	void selectObject(QObject *object);
 signals:
 	void objectSelected(QObject *object);
 	void widgetSelected(QWidget *widget);

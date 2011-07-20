@@ -29,3 +29,32 @@ void ObjectTree::displayTree(QObject *object) {
 	clear();
 	_buildTree(invisibleRootItem(), object);
 }
+
+QTreeWidgetItem* ObjectTree::findObject(QObject *object) {
+	QTreeWidgetItem *rc = 0;
+
+	for (int i = 0; !rc && i < topLevelItemCount(); i++) {
+		InspectorItem *item = static_cast<InspectorItem*>(topLevelItem(i));
+		if (item->getObject() == object) rc = item;
+		if (!rc) rc = findObject(item, object);
+	}
+	return rc;
+}
+
+QTreeWidgetItem* ObjectTree::findObject(QTreeWidgetItem *parent, QObject *object) {
+	QTreeWidgetItem *rc = 0;
+
+	for (int i = 0; !rc && i < parent->childCount(); i++) {
+		InspectorItem *item = static_cast<InspectorItem*>(parent->child(i));
+		if (item->getObject() == object) rc = item;
+		if (!rc) rc = findObject(item, object);
+	}
+
+	return rc;
+}
+
+void ObjectTree::selectObject(QObject *object) {
+	QTreeWidgetItem *item = findObject(object);
+
+	setCurrentItem(item, 0);
+}
