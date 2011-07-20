@@ -20,8 +20,6 @@ SignalSlotViewer::SignalSlotViewer(QWidget *parent):
 	QTreeWidget(parent) {
 	setColumnCount(2);
 	setHeaderLabels(QStringList() << tr("Type") << tr("Signature"));
-	setSortingEnabled(true);
-	sortByColumn(0, Qt::AscendingOrder);
 
 	connect(&m_invokeTimer, SIGNAL(timeout()), this, SLOT(_invokeTimerTick()));
 }
@@ -95,9 +93,14 @@ const char* SignalSlotViewer::getMethodTypeName(QMetaMethod::MethodType methodTy
 void SignalSlotViewer::setObject(QObject *object) {
 	const QMetaObject *metaObject = object->metaObject();
 
+	setSortingEnabled(false);
 	clear();
 	for (int i = 0; i < metaObject->methodCount(); i++) {
 		QMetaMethod method = metaObject->method(i);
 		addTopLevelItem(new SSVItem(object, method));
 	}
+
+	setSortingEnabled(true);
+	sortByColumn(1, Qt::AscendingOrder);
+	sortByColumn(0, Qt::AscendingOrder);
 }
