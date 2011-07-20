@@ -11,6 +11,7 @@
 class QTGUIINSPECTORSHARED_EXPORT QtGuiInspector: public QDialog {
 	Q_OBJECT
 private:
+
 	/// inspected widget
 	QWidget *m_widget;
 	QWidget *m_selectedWidget;
@@ -18,6 +19,11 @@ private:
 	PropertyEditor *m_properties;
 	SignalSlotViewer *m_sigSlotViewer;
 	QPlainTextEdit *m_style;
+	QPushButton *m_findWidgetBtn;
+
+protected:
+	bool eventFilter(QObject *object, QEvent *event);
+
 public:
 	/**
 	 * \brief Creates a QtGuiInspector dialog
@@ -27,6 +33,7 @@ public:
 
 private slots:
 	void _objectSelected(QObject *object);
+	void _startFindWidget();
 	void _updateStyle();
 	void _widgetSelected(QWidget *widget);
 };
