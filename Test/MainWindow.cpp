@@ -27,7 +27,13 @@ void MainWindow::changeEvent(QEvent *e) {
 }
 
 void MainWindow::deleteButton() {
+	if (!ui->deleteButton) {
+		qWarning("Trying to delete an already deleted button, aborting...");
+		return;
+	}
 	delete ui->deleteButton;
+	ui->deleteButton = 0;
+
 }
 
 void MainWindow::showTree() {
