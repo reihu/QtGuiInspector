@@ -20,6 +20,7 @@ MethodViewer::MethodViewer(QWidget *parent):
 	QTreeWidget(parent) {
 	setColumnCount(2);
 	setHeaderLabels(QStringList() << tr("Type") << tr("Signature"));
+	setRootIsDecorated(false);
 
 	connect(&m_invokeTimer, SIGNAL(timeout()), this, SLOT(_invokeTimerTick()));
 }
