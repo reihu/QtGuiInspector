@@ -2,12 +2,6 @@
 #define QT_GUI_INSPECTOR_H
 
 #include "QtGuiInspector_global.h"
-#include <QMainWindow>
-#include <QPlainTextEdit>
-#include <QPushButton>
-#include "ObjectTree.h"
-#include "PropertyEditor.h"
-#include "MethodViewer.h"
 
 #include "ui_QtGuiInspector.h"
 
