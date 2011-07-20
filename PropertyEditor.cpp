@@ -3,7 +3,6 @@
 
 PropertyEditor::PropertyEditor(QWidget *parent) : QTreeWidget(parent) {
 	m_object = 0;
-	setHeaderLabels(QStringList() << tr("Name") << tr("Value"));
 }
 
 void PropertyEditor::setObject(QObject *object) {

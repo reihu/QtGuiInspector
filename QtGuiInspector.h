@@ -2,24 +2,23 @@
 #define QT_GUI_INSPECTOR_H
 
 #include "QtGuiInspector_global.h"
-#include <QDialog>
+#include <QMainWindow>
 #include <QPlainTextEdit>
+#include <QPushButton>
 #include "ObjectTree.h"
 #include "PropertyEditor.h"
 #include "MethodViewer.h"
 
-class QTGUIINSPECTORSHARED_EXPORT QtGuiInspector: public QDialog {
+#include "ui_QtGuiInspector.h"
+
+class QTGUIINSPECTORSHARED_EXPORT QtGuiInspector: public QMainWindow {
 	Q_OBJECT
 private:
+	Ui::QtGuiInspector *ui;
 
 	/// inspected widget
 	QWidget *m_widget;
 	QWidget *m_selectedWidget;
-	ObjectTree *m_tree;
-	PropertyEditor *m_properties;
-	MethodViewer *m_methodViewer;
-	QPlainTextEdit *m_style;
-	QPushButton *m_findWidgetBtn;
 
 protected:
 	bool eventFilter(QObject *object, QEvent *event);

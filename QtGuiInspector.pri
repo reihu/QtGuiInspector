@@ -14,3 +14,6 @@ HEADERS += QtGuiInspector.h \
 
 OTHER_FILES += ../eartunes/etplayer/src/test.qml
 DEFINES += USE_QTGUIINSPECTOR
+
+FORMS += \
+    ../QtGuiInspector.ui
