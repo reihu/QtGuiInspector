@@ -9,7 +9,7 @@ QtGuiInspector::QtGuiInspector(QWidget *widget) {
 	m_properties = new PropertyEditor();
 	m_style = new QPlainTextEdit();
 	m_tree = new ObjectTree(widget);
-	m_sigSlotViewer = new SignalSlotViewer();
+	m_methodViewer = new MethodViewer();
 	m_selectedWidget = 0;
 	m_widget = widget;
 
@@ -24,7 +24,7 @@ QtGuiInspector::QtGuiInspector(QWidget *widget) {
 	vbox = new QVBoxLayout();
 	vbox->addWidget(m_properties);
 	vbox->addWidget(m_style);
-	vbox->addWidget(m_sigSlotViewer);
+	vbox->addWidget(m_methodViewer);
 
 	layout->addItem(vbox);
 	setLayout(layout);
@@ -46,7 +46,7 @@ void QtGuiInspector::_objectSelected(QObject *object) {
 	m_properties->setObject(object);
 	m_style->setEnabled(false);
 	m_style->clear();
-	m_sigSlotViewer->setObject(object);
+	m_methodViewer->setObject(object);
 }
 
 void QtGuiInspector::_startFindWidget() {

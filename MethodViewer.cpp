@@ -1,12 +1,12 @@
-#include "SignalSlotViewer.h"
+#include "MethodViewer.h"
 
 #include <QContextMenuEvent>
 #include <QInputDialog>
 #include <QMenu>
 
-Q_DECLARE_METATYPE(SignalSlotViewer::SSVItem*)
+Q_DECLARE_METATYPE(MethodViewer::Item*)
 
-SignalSlotViewer::SSVItem::SSVItem(QObject *object, const QMetaMethod &method) {
+MethodViewer::Item::Item(QObject *object, const QMetaMethod &method) {
 	QMetaMethod::MethodType methodType = method.methodType();
 
 	setText(0, getMethodTypeName(methodType));
@@ -16,7 +16,7 @@ SignalSlotViewer::SSVItem::SSVItem(QObject *object, const QMetaMethod &method) {
 	m_object = object;
 }
 
-SignalSlotViewer::SignalSlotViewer(QWidget *parent):
+MethodViewer::MethodViewer(QWidget *parent):
 	QTreeWidget(parent) {
 	setColumnCount(2);
 	setHeaderLabels(QStringList() << tr("Type") << tr("Signature"));
@@ -24,15 +24,15 @@ SignalSlotViewer::SignalSlotViewer(QWidget *parent):
 	connect(&m_invokeTimer, SIGNAL(timeout()), this, SLOT(_invokeTimerTick()));
 }
 
-void SignalSlotViewer::_invokeMethod() {
+void MethodViewer::_invokeMethod() {
 	QAction *sender = static_cast<QAction*>(this->sender());
-	SSVItem *item = sender->property("treeItem").value<SignalSlotViewer::SSVItem*>();
+	Item *item = sender->property("treeItem").value<MethodViewer::Item*>();
 	item->getMethod().invoke(item->getObject());
 }
 
-void SignalSlotViewer::_invokeMethodEvery() {
+void MethodViewer::_invokeMethodEvery() {
 	QAction *sender = static_cast<QAction*>(this->sender());
-	SSVItem *item = sender->property("treeItem").value<SignalSlotViewer::SSVItem*>();
+	Item *item = sender->property("treeItem").value<MethodViewer::Item*>();
 	QMetaMethod method = item->getMethod();
 
 	bool bOk;
@@ -46,19 +46,19 @@ void SignalSlotViewer::_invokeMethodEvery() {
 	m_invokeTimer.start(interval*1000);
 }
 
-void SignalSlotViewer::_invokeTimerTick() {
+void MethodViewer::_invokeTimerTick() {
 	m_invokedMethod.invoke(m_invokedObject);
 }
 
-void SignalSlotViewer::contextMenuEvent(QContextMenuEvent *event) {
-	SSVItem *item = static_cast<SSVItem*>(itemAt(event->pos()));
+void MethodViewer::contextMenuEvent(QContextMenuEvent *event) {
+	Item *item = static_cast<Item*>(itemAt(event->pos()));
 	QMenu menu(this);
 
 	if ((item->isSignal() || item->isSlot()) && item->getMethod().parameterNames().count() == 0) {
 		QAction *action = menu.addAction("invoke", this, SLOT(_invokeMethod()));
-		action->setProperty("treeItem", QVariant::fromValue<SignalSlotViewer::SSVItem*>(item));
+		action->setProperty("treeItem", QVariant::fromValue<MethodViewer::Item*>(item));
 		action = menu.addAction(tr("Invoke every n seconds..."), this, SLOT(_invokeMethodEvery()));
-		action->setProperty("treeItem", QVariant::fromValue<SignalSlotViewer::SSVItem*>(item));
+		action->setProperty("treeItem", QVariant::fromValue<MethodViewer::Item*>(item));
 
 	}
 
@@ -69,7 +69,7 @@ void SignalSlotViewer::contextMenuEvent(QContextMenuEvent *event) {
 	if (!menu.isEmpty()) menu.exec(mapToGlobal(event->pos()));
 }
 
-const char* SignalSlotViewer::getMethodTypeName(QMetaMethod::MethodType methodType) {
+const char* MethodViewer::getMethodTypeName(QMetaMethod::MethodType methodType) {
 	const char *rc = 0;
 
 	switch (methodType) {
@@ -90,14 +90,14 @@ const char* SignalSlotViewer::getMethodTypeName(QMetaMethod::MethodType methodTy
 	return rc;
 }
 
-void SignalSlotViewer::setObject(QObject *object) {
+void MethodViewer::setObject(QObject *object) {
 	const QMetaObject *metaObject = object->metaObject();
 
 	setSortingEnabled(false);
 	clear();
 	for (int i = 0; i < metaObject->methodCount(); i++) {
 		QMetaMethod method = metaObject->method(i);
-		addTopLevelItem(new SSVItem(object, method));
+		addTopLevelItem(new Item(object, method));
 	}
 
 	setSortingEnabled(true);
