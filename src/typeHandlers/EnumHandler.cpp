@@ -20,6 +20,5 @@ void EnumHandler::setModelData(QWidget *editor, PropertyEditor::ValueItem *item)
 	QMetaEnum metaEnum = item->getMetaProperty().enumerator();
 	int value = cbo->itemData(cbo->currentIndex()).toInt();
 
-	item->setValue(value);
-	item->setText(metaEnum.key(value));
+	item->setValue(value, metaEnum.key(value));
 }
