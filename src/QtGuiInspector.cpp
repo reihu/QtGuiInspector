@@ -29,7 +29,6 @@ void QtGuiInspector::_objectSelected(QObject *object) {
 }
 
 void QtGuiInspector::_startFindWidget() {
-	qDebug (":: mousePress");
 	ui->findWidgetBtn->installEventFilter(this);
 	ui->findWidgetBtn->setCursor(Qt::CrossCursor);
 }
