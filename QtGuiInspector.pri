@@ -8,7 +8,8 @@ SOURCES += src/QtGuiInspector.cpp \
     src/typeHandlers/PropertyTypeHandler.cpp \
     src/typeHandlers/EnumHandler.cpp \
     src/typeHandlers/StringHandler.cpp \
-    src/typeHandlers/BoolHandler.cpp
+    src/typeHandlers/BoolHandler.cpp \
+    src/typeHandlers/IntHandler.cpp
 
 HEADERS += src/QtGuiInspector.h \
     src/QtGuiInspector_global.h \
@@ -20,7 +21,8 @@ HEADERS += src/QtGuiInspector.h \
     src/typeHandlers/PropertyTypeHandler.h \
     src/typeHandlers/EnumHandler.h \
     src/typeHandlers/StringHandler.h \
-    src/typeHandlers/BoolHandler.h
+    src/typeHandlers/BoolHandler.h \
+    src/typeHandlers/IntHandler.h
 
 OTHER_FILES += ../eartunes/etplayer/src/test.qml
 DEFINES += USE_QTGUIINSPECTOR

@@ -3,9 +3,7 @@
 #include "typeHandlers/EnumHandler.h"
 #include "typeHandlers/PropertyTypeHandler.h"
 
-#include <QCheckBox>
-#include <QLineEdit>
-#include <QSpinBox>
+#include <QLabel>
 #include <QStandardItemModel>
 
 Q_DECLARE_METATYPE(QMetaProperty)
@@ -31,14 +29,9 @@ QWidget* PropertyDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
 		PropertyTypeHandler *handler = PropertyTypeHandler::getHandler(type);
 		rc = handler->createEditor(item);
 	}
-	else if (type == QVariant::Int) {
-		QSpinBox *spinBox = new QSpinBox();
-		spinBox->setValue(data.toInt());
-		rc = spinBox;
-	}
 	else {
 		qWarning("Unexpected data type: %s", metaProperty.typeName());
-		rc = new QLineEdit(data.toString());
+		rc = new QLabel("Editing not yet implemented...");
 	}
 
 	rc->setParent(parent);
