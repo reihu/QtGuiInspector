@@ -15,7 +15,7 @@ QWidget* EnumHandler::createEditor(PropertyEditor::ValueItem *item) {
 	return cbo;
 }
 
-void EnumHandler::setModelData(QWidget *editor, QStandardItemModel *model, PropertyEditor::ValueItem *item) {
+void EnumHandler::setModelData(QWidget *editor, PropertyEditor::ValueItem *item) {
 	QComboBox *cbo = static_cast<QComboBox*>(editor);
 	QMetaEnum metaEnum = item->getMetaProperty().enumerator();
 	int value = cbo->itemData(cbo->currentIndex()).toInt();

@@ -12,6 +12,7 @@ Q_DECLARE_METATYPE(QMetaProperty)
 
 PropertyDelegate::PropertyDelegate(QObject *parent):
 		QItemDelegate(parent) {
+	PropertyTypeHandler::initBasicHandlers();
 }
 
 QWidget* PropertyDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const {
@@ -21,8 +22,6 @@ QWidget* PropertyDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
 	QVariant::Type type = metaProperty.type();
 	QVariant data = index.data();
 	QWidget *rc = 0;
-
-	qDebug(":: Requested Editor for variant of type '%s'", data.typeName());
 
 	if (PropertyTypeHandler::hasHandler(type)) {
 		PropertyTypeHandler *handler = PropertyTypeHandler::getHandler(type);
@@ -36,9 +35,6 @@ QWidget* PropertyDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
 		QCheckBox *checkBox = new QCheckBox();
 		checkBox->setChecked(data.toBool());
 		rc = checkBox;
-	}
-	else if (type == QVariant::String) {
-		rc = new QLineEdit(data.toString());
 	}
 	else if (type == QVariant::Int) {
 		QSpinBox *spinBox = new QSpinBox();
@@ -63,17 +59,14 @@ void PropertyDelegate::setModelData(QWidget *editor, QAbstractItemModel *standar
 
 	if (metaProperty.isEnumType()) {
 		EnumHandler handler;
-		handler.setModelData(editor, model, item);
+		handler.setModelData(editor, item);
 	}
 	else if (PropertyTypeHandler::hasHandler(type)) {
 		PropertyTypeHandler *handler = PropertyTypeHandler::getHandler(type);
-		handler->setModelData(editor, model, item);
+		handler->setModelData(editor, item);
 	}
 	else if (QCheckBox *checkBox = dynamic_cast<QCheckBox*>(editor)) {
 		model->setData(index, checkBox->isChecked());
-	}
-	else if (QLineEdit *lineEdit = dynamic_cast<QLineEdit*>(editor)) {
-		model->setData(index, lineEdit->text());
 	}
 
 	QString propertyName = model->index(index.row(), 1).data().toString();

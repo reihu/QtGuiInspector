@@ -9,10 +9,8 @@ class PropertyTypeHandler {
 private:
 	static QMap<QVariant::Type, PropertyTypeHandler*> m_registeredHandlers;
 public:
-	PropertyTypeHandler();
-
 	virtual QWidget *createEditor(PropertyEditor::ValueItem *item) = 0;
-	virtual void setModelData(QWidget *editor, QStandardItemModel *model, PropertyEditor::ValueItem *item) = 0;
+	virtual void setModelData(QWidget *editor, PropertyEditor::ValueItem *item) = 0;
 
 	static void registerHandler(QVariant::Type type, PropertyTypeHandler *handler);
 	static void deleteHandler(QVariant::Type type);
@@ -24,6 +22,8 @@ public:
 	static PropertyTypeHandler* getHandler(QVariant::Type type) {
 		return m_registeredHandlers[type];
 	}
+
+	static void initBasicHandlers();
 };
 
 #endif // PROPERTYTYPEHANDLER_H
