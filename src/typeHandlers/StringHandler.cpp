@@ -7,6 +7,6 @@ QWidget* StringHandler::createEditor(PropertyEditor::ValueItem *item) {
 }
 
 void StringHandler::setModelData(QWidget *editor, PropertyEditor::ValueItem *item) {
-	QLineEdit *lineEdit = dynamic_cast<QLineEdit*>(editor);
+	QLineEdit *lineEdit = static_cast<QLineEdit*>(editor);
 	item->setText(lineEdit->text());
 }

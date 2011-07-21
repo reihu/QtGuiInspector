@@ -23,18 +23,13 @@ QWidget* PropertyDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
 	QVariant data = index.data();
 	QWidget *rc = 0;
 
-	if (PropertyTypeHandler::hasHandler(type)) {
-		PropertyTypeHandler *handler = PropertyTypeHandler::getHandler(type);
-		rc = handler->createEditor(item);
-	}
-	else if (metaProperty.isEnumType()) {
+	if (metaProperty.isEnumType()) {
 		EnumHandler handler;
 		rc = handler.createEditor(item);
 	}
-	else if (type == QVariant::Bool) {
-		QCheckBox *checkBox = new QCheckBox();
-		checkBox->setChecked(data.toBool());
-		rc = checkBox;
+	else if (PropertyTypeHandler::hasHandler(type)) {
+		PropertyTypeHandler *handler = PropertyTypeHandler::getHandler(type);
+		rc = handler->createEditor(item);
 	}
 	else if (type == QVariant::Int) {
 		QSpinBox *spinBox = new QSpinBox();
@@ -64,9 +59,6 @@ void PropertyDelegate::setModelData(QWidget *editor, QAbstractItemModel *standar
 	else if (PropertyTypeHandler::hasHandler(type)) {
 		PropertyTypeHandler *handler = PropertyTypeHandler::getHandler(type);
 		handler->setModelData(editor, item);
-	}
-	else if (QCheckBox *checkBox = dynamic_cast<QCheckBox*>(editor)) {
-		model->setData(index, checkBox->isChecked());
 	}
 
 	QString propertyName = model->index(index.row(), 1).data().toString();
