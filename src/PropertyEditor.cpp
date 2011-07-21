@@ -3,6 +3,22 @@
 #include <QHeaderView>
 #include <QMetaProperty>
 
+PropertyEditor::ValueItem::ValueItem(const QVariant &value, QObject *object, QMetaProperty metaProperty):
+		QStandardItem(value.toString()) {
+	m_object = object;
+	m_metaProperty = metaProperty;
+	m_value = value;
+
+	if (!metaProperty.isWritable()) {
+		setFlags(flags() & ~Qt::ItemIsEditable);
+	}
+
+	if (metaProperty.isEnumType()) {
+		QMetaEnum metaEnum = metaProperty.enumerator();
+		setText(metaEnum.key(value.toInt()));
+	}
+}
+
 PropertyEditor::PropertyEditor(QWidget *parent) : QTreeView(parent) {
 	m_object = 0;
 
@@ -40,9 +56,7 @@ void PropertyEditor::setObject(QObject *object) {
 		item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
 		m_model.setItem(i, 1, item);
 
-		item = new QStandardItem();
-		item->setData(value, Qt::DisplayRole);
-		item->setData(QVariant::fromValue<QObject*>(object), Qt::UserRole);
+		item = new ValueItem(value, object, property);
 		m_model.setItem(i, 2, item);
 	}
 
