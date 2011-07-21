@@ -1,8 +1,9 @@
 #include "PropertyDelegate.h"
 #include "PropertyEditor.h"
+#include "typeHandlers/EnumHandler.h"
+#include "typeHandlers/PropertyTypeHandler.h"
 
 #include <QCheckBox>
-#include <QComboBox>
 #include <QLineEdit>
 #include <QSpinBox>
 #include <QStandardItemModel>
@@ -23,17 +24,13 @@ QWidget* PropertyDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
 
 	qDebug(":: Requested Editor for variant of type '%s'", data.typeName());
 
-	if (metaProperty.isEnumType()) {
-		QMetaEnum metaEnum = metaProperty.enumerator();
-		QComboBox *cbo = new QComboBox();
-		int currentIndex = -1, currentValue = data.toInt();
-		for (int i = 0; i < metaEnum.keyCount(); i++) {
-			cbo->addItem(metaEnum.key(i), metaEnum.value(i));
-			if (currentIndex < 0 && currentValue == metaEnum.value(i)) currentIndex = i;
-		}
-		if (currentIndex >= 0) cbo->setCurrentIndex(currentIndex);
-
-		rc = cbo;
+	if (PropertyTypeHandler::hasHandler(type)) {
+		PropertyTypeHandler *handler = PropertyTypeHandler::getHandler(type);
+		rc = handler->createEditor(item);
+	}
+	else if (metaProperty.isEnumType()) {
+		EnumHandler handler;
+		rc = handler.createEditor(item);
 	}
 	else if (type == QVariant::Bool) {
 		QCheckBox *checkBox = new QCheckBox();
@@ -60,14 +57,17 @@ QWidget* PropertyDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
 void PropertyDelegate::setModelData(QWidget *editor, QAbstractItemModel *standardModel, const QModelIndex &index) const {
 	QStandardItemModel *model = static_cast<QStandardItemModel*>(standardModel);
 	PropertyEditor::ValueItem *item = static_cast<PropertyEditor::ValueItem*>(model->itemFromIndex(index));
+	QMetaProperty metaProperty = item->getMetaProperty();
+	QVariant::Type type = metaProperty.type();
 	QObject *object = item->getObject();
 
-	if (QComboBox *cbo = dynamic_cast<QComboBox*>(editor)) {
-		QMetaEnum metaEnum = item->getMetaProperty().enumerator();
-		int value = cbo->itemData(cbo->currentIndex()).toInt();
-
-		item->setValue(value);
-		model->setData(index, metaEnum.key(value));
+	if (metaProperty.isEnumType()) {
+		EnumHandler handler;
+		handler.setModelData(editor, model, item);
+	}
+	else if (PropertyTypeHandler::hasHandler(type)) {
+		PropertyTypeHandler *handler = PropertyTypeHandler::getHandler(type);
+		handler->setModelData(editor, model, item);
 	}
 	else if (QCheckBox *checkBox = dynamic_cast<QCheckBox*>(editor)) {
 		model->setData(index, checkBox->isChecked());
