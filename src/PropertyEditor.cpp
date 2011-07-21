@@ -19,6 +19,11 @@ PropertyEditor::ValueItem::ValueItem(const QVariant &value, QObject *object, QMe
 	}
 }
 
+void PropertyEditor::ValueItem::setValue(const QVariant &value, const QString &displayText) {
+	m_value = value;
+	setText(displayText);
+}
+
 PropertyEditor::PropertyEditor(QWidget *parent) : QTreeView(parent) {
 	m_object = 0;
 

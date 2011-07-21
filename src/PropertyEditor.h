@@ -26,7 +26,8 @@ public:
 		QMetaProperty getMetaProperty() const {return m_metaProperty;}
 		QVariant getValue() const {return m_value;}
 
-		void setValue(const QVariant &value) {m_value = value;}
+		void setValue(const QVariant &value) {setValue(value, value.toString());}
+		void setValue(const QVariant &value, const QString &displayText);
 	};
 
     explicit PropertyEditor(QWidget *parent = 0);
