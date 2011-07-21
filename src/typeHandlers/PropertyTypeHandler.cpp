@@ -1,4 +1,6 @@
+#include "BoolHandler.h"
 #include "EnumHandler.h"
+#include "IntHandler.h"
 #include "PropertyTypeHandler.h"
 #include "StringHandler.h"
 
@@ -6,6 +8,8 @@ QMap<QVariant::Type, PropertyTypeHandler*> PropertyTypeHandler::m_registeredHand
 
 void PropertyTypeHandler::initBasicHandlers() {
 	// register some basic types
+	registerHandler(QVariant::Bool, new BoolHandler());
+	registerHandler(QVariant::Int, new IntHandler());
 	registerHandler(QVariant::String, new StringHandler());
 }
 
