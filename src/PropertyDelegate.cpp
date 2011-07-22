@@ -1,7 +1,7 @@
 #include "PropertyDelegate.h"
 #include "PropertyEditor.h"
 #include "typeHandlers/EnumHandler.h"
-#include "typeHandlers/PropertyTypeHandler.h"
+#include "HandlerRegistry.h"
 
 #include <QLabel>
 #include <QStandardItemModel>
@@ -10,7 +10,7 @@ Q_DECLARE_METATYPE(QMetaProperty)
 
 PropertyDelegate::PropertyDelegate(QObject *parent):
 		QItemDelegate(parent) {
-	PropertyTypeHandler::initBasicHandlers();
+	HandlerRegistry::initBasicHandlers();
 }
 
 QWidget* PropertyDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const {
@@ -25,8 +25,8 @@ QWidget* PropertyDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
 		EnumHandler handler;
 		rc = handler.createEditor(item);
 	}
-	else if (PropertyTypeHandler::hasHandler(type)) {
-		PropertyTypeHandler *handler = PropertyTypeHandler::getHandler(type);
+	else if (HandlerRegistry::hasHandler(type)) {
+		PropertyTypeHandler *handler = HandlerRegistry::getHandler(type);
 		rc = handler->createEditor(item);
 	}
 	else {
@@ -49,8 +49,8 @@ void PropertyDelegate::setModelData(QWidget *editor, QAbstractItemModel *standar
 		EnumHandler handler;
 		handler.setModelData(editor, item);
 	}
-	else if (PropertyTypeHandler::hasHandler(type)) {
-		PropertyTypeHandler *handler = PropertyTypeHandler::getHandler(type);
+	else if (HandlerRegistry::hasHandler(type)) {
+		PropertyTypeHandler *handler = HandlerRegistry::getHandler(type);
 		handler->setModelData(editor, item);
 	}
 
