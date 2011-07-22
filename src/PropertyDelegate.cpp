@@ -18,8 +18,9 @@ QWidget* PropertyDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
 	PropertyEditor::ValueItem *item = static_cast<PropertyEditor::ValueItem*>(model->itemFromIndex(index));
 	QMetaProperty metaProperty = item->getMetaProperty();
 	QVariant::Type type = metaProperty.type();
-	QVariant data = index.data();
 	QWidget *rc = 0;
+
+	Q_UNUSED(option);
 
 	if (metaProperty.isEnumType()) {
 		EnumHandler handler;
