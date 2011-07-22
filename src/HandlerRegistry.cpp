@@ -6,6 +6,12 @@
 
 QMap<QVariant::Type, PropertyTypeHandler*> HandlerRegistry::m_registeredHandlers;
 
+void HandlerRegistry::cleanup() {
+	foreach (QVariant::Type type, m_registeredHandlers.keys()) {
+		deleteHandler(type);
+	}
+}
+
 void HandlerRegistry::initBasicHandlers() {
 	// register some basic types
 	registerHandler(QVariant::Bool, new BoolHandler());

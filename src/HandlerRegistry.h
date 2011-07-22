@@ -20,6 +20,9 @@ public:
 	}
 
 	static void initBasicHandlers();
+
+	/// delete all the registered handlers
+	static void cleanup();
 };
 
 #endif // HANDLERREGISTRY_H
