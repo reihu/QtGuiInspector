@@ -16,7 +16,7 @@ QString SizeHandler::toString(const QVariant &variant) {
 		rc = QString("%1 x %2").arg(size.width()).arg(size.height());
 	}
 	else if (variant.type() == QVariant::SizeF) {
-		QSizeF size = variant.toSize();
+		QSizeF size = variant.toSizeF();
 		rc = QString("%1 x %2").arg(size.width()).arg(size.height());
 	}
 	else rc = "[not a QSize!]";
