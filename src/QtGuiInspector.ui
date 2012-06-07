@@ -17,6 +17,9 @@
    <layout class="QVBoxLayout" name="verticalLayout_3">
     <item>
      <widget class="ObjectTree" name="objectTree">
+      <attribute name="headerDefaultSectionSize">
+       <number>300</number>
+      </attribute>
       <column>
        <property name="text">
         <string notr="true">Class</string>
