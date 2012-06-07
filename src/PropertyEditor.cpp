@@ -24,7 +24,7 @@ void PropertyEditor::ValueItem::setValue(const QVariant &value, const QString &d
 	setText(displayText);
 }
 
-PropertyEditor::PropertyEditor(QWidget *parent) : QTreeView(parent) {
+PropertyEditor::PropertyEditor(QWidget *parent): QTreeView(parent) {
 	m_object = 0;
 
 	setModel(&m_model);
@@ -37,8 +37,8 @@ void PropertyEditor::setObject(QObject *object) {
 	m_object = object;
 	m_model.clear();
 
-	m_model.setColumnCount(3);
-	m_model.setHorizontalHeaderLabels(QStringList() << tr("Class") << tr("Name") << tr("Value"));
+	m_model.setColumnCount(4);
+	m_model.setHorizontalHeaderLabels(QStringList() << tr("Class") << tr("Type") << tr("Name") << tr("Value"));
 
 	m_model.setRowCount(object->metaObject()->propertyCount());
 	for (int i = 0; i < object->metaObject()->propertyCount(); i++) {
@@ -53,16 +53,24 @@ void PropertyEditor::setObject(QObject *object) {
 			   property.enclosingMetaObject()->className());
 #endif
 
+		// defining class
 		QStandardItem *item = new QStandardItem(property.enclosingMetaObject()->className());
 		item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
 		m_model.setItem(i, 0, item);
 
-		item = new QStandardItem(propertyName);
+		// property type
+		item = new QStandardItem(property.typeName());
 		item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
 		m_model.setItem(i, 1, item);
 
-		item = new ValueItem(value, object, property);
+		// property name
+		item = new QStandardItem(propertyName);
+		item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
 		m_model.setItem(i, 2, item);
+
+		// property value
+		item = new ValueItem(value, object, property);
+		m_model.setItem(i, 3, item);
 	}
 
 	/// @todo Add dynamic property support
