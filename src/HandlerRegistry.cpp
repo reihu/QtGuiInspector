@@ -1,6 +1,7 @@
 #include "HandlerRegistry.h"
 #include "typeHandlers/BoolHandler.h"
 #include "typeHandlers/IntHandler.h"
+#include "typeHandlers/SizeHandler.h"
 #include "typeHandlers/SizePolicyHandler.h"
 #include "typeHandlers/StringHandler.h"
 
@@ -16,6 +17,8 @@ void HandlerRegistry::initBasicHandlers() {
 	// register some basic types
 	registerHandler(QVariant::Bool, new BoolHandler());
 	registerHandler(QVariant::Int, new IntHandler());
+	registerHandler(QVariant::Size, new SizeHandler());
+	registerHandler(QVariant::SizeF, new SizeHandler());
 	registerHandler(QVariant::SizePolicy, new SizePolicyHandler());
 	registerHandler(QVariant::String, new StringHandler());
 }
