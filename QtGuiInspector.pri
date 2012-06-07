@@ -12,7 +12,9 @@ SOURCES += src/QtGuiInspector.cpp \
     src/typeHandlers/BoolHandler.cpp \
     src/typeHandlers/IntHandler.cpp \
 	src/typeHandlers/SizePolicyHandler.cpp \
-	src/typeHandlers/SizeHandler.cpp
+	src/typeHandlers/SizeHandler.cpp \
+	src/typeHandlers/PointHandler.cpp \
+	src/typeHandlers/RectHandler.cpp
 
 HEADERS += src/QtGuiInspector.h \
 	src/QtGuiInspector_global.h \
@@ -28,7 +30,9 @@ HEADERS += src/QtGuiInspector.h \
     src/typeHandlers/BoolHandler.h \
     src/typeHandlers/IntHandler.h \
 	src/typeHandlers/SizePolicyHandler.h \
-	src/typeHandlers/SizeHandler.h
+	src/typeHandlers/SizeHandler.h \
+	src/typeHandlers/PointHandler.h \
+	src/typeHandlers/RectHandler.h
 
 OTHER_FILES += ../eartunes/etplayer/src/test.qml
 DEFINES += USE_QTGUIINSPECTOR
