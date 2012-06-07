@@ -1,6 +1,7 @@
 DEPENDPATH += $$PWD
 SOURCES += src/QtGuiInspector.cpp \
-    src/InspectorItem.cpp \
+	src/HandlerRegistry.cpp \
+	src/InspectorItem.cpp \
     src/MethodViewer.cpp \
     src/ObjectTree.cpp \
 	src/PropertyEditor.cpp \
@@ -10,10 +11,11 @@ SOURCES += src/QtGuiInspector.cpp \
     src/typeHandlers/StringHandler.cpp \
     src/typeHandlers/BoolHandler.cpp \
     src/typeHandlers/IntHandler.cpp \
-    src/HandlerRegistry.cpp
+	src/typeHandlers/SizePolicyHandler.cpp
 
 HEADERS += src/QtGuiInspector.h \
-    src/QtGuiInspector_global.h \
+	src/QtGuiInspector_global.h \
+	src/HandlerRegistry.h \
 	src/InspectorItem.h \
     src/MethodViewer.h \
     src/ObjectTree.h \
@@ -24,7 +26,7 @@ HEADERS += src/QtGuiInspector.h \
     src/typeHandlers/StringHandler.h \
     src/typeHandlers/BoolHandler.h \
     src/typeHandlers/IntHandler.h \
-    src/HandlerRegistry.h
+	src/typeHandlers/SizePolicyHandler.h
 
 OTHER_FILES += ../eartunes/etplayer/src/test.qml
 DEFINES += USE_QTGUIINSPECTOR
