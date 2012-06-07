@@ -1,4 +1,3 @@
-#include "../HandlerRegistry.h"
 #include "SizePolicyHandler.h"
 
 #include <QLabel>
