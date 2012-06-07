@@ -1,10 +1,17 @@
+#include "HandlerRegistry.h"
 #include "PropertyEditor.h"
 
 #include <QHeaderView>
 #include <QMetaProperty>
 
-PropertyEditor::ValueItem::ValueItem(const QVariant &value, QObject *object, QMetaProperty metaProperty):
-		QStandardItem(value.toString()) {
+PropertyEditor::ValueItem::ValueItem(const QVariant &value, QObject *object, QMetaProperty metaProperty) {
+	QString valueString;
+	if (HandlerRegistry::hasHandler(value.type())) {
+		valueString = HandlerRegistry::getHandler(value.type())->toString(value);
+	}
+	else valueString = value.toString();
+	setText(valueString);
+
 	m_object = object;
 	m_metaProperty = metaProperty;
 	m_value = value;
