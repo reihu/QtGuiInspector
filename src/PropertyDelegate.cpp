@@ -30,9 +30,11 @@ QWidget* PropertyDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
 		PropertyTypeHandler *handler = HandlerRegistry::getHandler(type);
 		rc = handler->createEditor(item);
 	}
-	else {
-		qWarning("Unexpected data type: %s", metaProperty.typeName());
+	else qWarning("Unexpected data type: %s", metaProperty.typeName());
+
+	if (!rc) {
 		rc = new QLabel("Editing not yet implemented...");
+		rc->setAutoFillBackground(true);
 	}
 
 	rc->setParent(parent);
