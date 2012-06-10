@@ -4,7 +4,7 @@
 #include <QHeaderView>
 #include <QMetaProperty>
 
-PropertyEditor::ValueItem::ValueItem(const QVariant &value, QObject *object, QMetaProperty metaProperty) {
+PropertyEditor::ValueItem::ValueItem(const QVariant &value, QObject *object, const QMetaProperty &metaProperty) {
 	QString valueString;
 	if (HandlerRegistry::hasHandler(value.type())) {
 		valueString = HandlerRegistry::getHandler(value.type())->toString(value);
@@ -40,18 +40,7 @@ PropertyEditor::PropertyEditor(QWidget *parent): QTreeView(parent) {
 	setRootIsDecorated(false);
 }
 
-void PropertyEditor::setObject(QObject *object) {
-	m_object = object;
-	m_model.clear();
-
-	m_model.setColumnCount(4);
-	m_model.setHorizontalHeaderLabels(QStringList() << tr("Class") << tr("Type") << tr("Name") << tr("Value"));
-
-	m_model.setRowCount(object->metaObject()->propertyCount());
-	for (int i = 0; i < object->metaObject()->propertyCount(); i++) {
-		QMetaProperty property = object->metaObject()->property(i);
-		const char *propertyName = property.name();
-		QVariant value = object->property(propertyName);
+void PropertyEditor::_addProperty(const char *className, const char *typeName, const char *key, ValueItem *valueItem) {
 
 #if 0
 		qDebug(":: Property '%s'='%s' (type: '%s', variantType: '%s', class: '%s')", propertyName,
@@ -60,24 +49,48 @@ void PropertyEditor::setObject(QObject *object) {
 			   property.enclosingMetaObject()->className());
 #endif
 
+		QList<QStandardItem*> rowItems;
 		// defining class
-		QStandardItem *item = new QStandardItem(property.enclosingMetaObject()->className());
+		QStandardItem *item = new QStandardItem(className);
 		item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-		m_model.setItem(i, 0, item);
+		rowItems << item;
 
 		// property type
-		item = new QStandardItem(property.typeName());
+		item = new QStandardItem(typeName);
 		item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-		m_model.setItem(i, 1, item);
+		rowItems << item;
 
 		// property name
-		item = new QStandardItem(propertyName);
+		item = new QStandardItem(key);
 		item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-		m_model.setItem(i, 2, item);
+		rowItems << item;
 
 		// property value
-		item = new ValueItem(value, object, property);
-		m_model.setItem(i, 3, item);
+		rowItems << valueItem;
+
+		m_model.appendRow(rowItems);
+}
+
+void PropertyEditor::setObject(QObject *object) {
+	m_object = object;
+	m_model.clear();
+
+	m_model.setColumnCount(4);
+	m_model.setHorizontalHeaderLabels(QStringList() << tr("Class") << tr("Type") << tr("Name") << tr("Value"));
+
+	for (int i = 0; i < object->metaObject()->propertyCount(); i++) {
+		QMetaProperty property = object->metaObject()->property(i);
+		const char *propertyName = property.name();
+		QVariant value = object->property(propertyName);
+		const char *className = property.enclosingMetaObject()->className();
+
+		_addProperty(className, property.typeName(), propertyName, new ValueItem(value, object, property));
+	}
+
+	QMetaProperty dynamicMetaProperty;
+	foreach (QByteArray dynPropName, object->dynamicPropertyNames()) {
+		QVariant value = object->property(dynPropName.constData());
+		_addProperty("_dynamic", value.typeName(), dynPropName, new ValueItem(value, object, dynamicMetaProperty));
 	}
 
 	/// @todo Add dynamic property support

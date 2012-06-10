@@ -20,7 +20,7 @@ public:
 		QMetaProperty m_metaProperty;
 		QVariant m_value;
 	public:
-		ValueItem(const QVariant &value, QObject *object, QMetaProperty metaProperty);
+		ValueItem(const QVariant &value, QObject *object, const QMetaProperty &metaProperty);
 
 		QObject* getObject() const {return m_object;}
 		QMetaProperty getMetaProperty() const {return m_metaProperty;}
@@ -31,6 +31,9 @@ public:
 	};
 
     explicit PropertyEditor(QWidget *parent = 0);
+
+private:
+	void _addProperty(const char *className, const char *typeName, const char *key, ValueItem *valueItem);
 
 signals:
 
