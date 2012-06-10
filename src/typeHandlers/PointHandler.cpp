@@ -3,10 +3,13 @@
 #include <QLabel>
 
 QWidget* PointHandler::createEditor(PropertyEditor::ValueItem *item) {
+	Q_UNUSED(item);
 	return NULL; // Editing isn't possible atm
 }
 
 void PointHandler::setModelData(QWidget *editor, PropertyEditor::ValueItem *item) {
+	Q_UNUSED(editor);
+	Q_UNUSED(item);
 }
 
 QString PointHandler::toString(const QVariant &variant) {

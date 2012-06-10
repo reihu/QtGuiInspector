@@ -3,10 +3,13 @@
 #include <QLabel>
 
 QWidget* SizeHandler::createEditor(PropertyEditor::ValueItem *item) {
+	Q_UNUSED(item);
 	return NULL; // Editing isn't possible atm
 }
 
 void SizeHandler::setModelData(QWidget *editor, PropertyEditor::ValueItem *item) {
+	Q_UNUSED(editor);
+	Q_UNUSED(item);
 }
 
 QString SizeHandler::toString(const QVariant &variant) {

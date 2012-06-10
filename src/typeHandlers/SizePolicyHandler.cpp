@@ -3,10 +3,13 @@
 #include <QLabel>
 
 QWidget* SizePolicyHandler::createEditor(PropertyEditor::ValueItem *item) {
+	Q_UNUSED(item);
 	return NULL; // Editing isn't possible atm
 }
 
 void SizePolicyHandler::setModelData(QWidget *editor, PropertyEditor::ValueItem *item) {
+	Q_UNUSED(editor);
+	Q_UNUSED(item);
 }
 
 QString SizePolicyHandler::toString(const QVariant &variant) {
